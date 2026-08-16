@@ -1,11 +1,13 @@
 <?php
 $posts = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    $title = $_POST["title"];
+    $author = $_POST["author"];
+    $category = $_POST["category"];
     $posts[] = [
-        "title" => $_POST["title"],
-        "author" => $_POST["author"],
-        "category" => $_POST["category"]
+        "title" => $title,
+        "author" => $author,
+        "category" => $category
     ];
 }
 function getStatus($category)
@@ -27,28 +29,23 @@ function getStatus($category)
 <h1>Quản lý bài viết của Khoa</h1>
 <h2>Thêm bài viết</h2>
 <form method="POST">
-    <p>
-        <label>Tiêu đề bài viết:</label><br>
-        <input type="text" name="title" required>
-    </p>
-    <p>
-        <label>Tác giả:</label><br>
-        <input type="text" name="author" required>
-    </p>
-    <p>
-        <label>Chuyên mục:</label><br>
-        <select name="category">
-            <option value="Thông báo">Thông báo</option>
-            <option value="Hoạt động của Khoa">Hoạt động của Khoa</option>
-            <option value="Học tập">Học tập</option>
-            <option value="Nghiên cứu khoa học">Nghiên cứu khoa học</option>
-        </select>
-    </p>
+    <label>Tiêu đề:</label><br>
+    <input type="text" name="title" required>
+    <br><br>
+    <label>Tác giả:</label><br>
+    <input type="text" name="author" required>
+    <br><br>
+    <label>Chuyên mục:</label><br>
+    <select name="category">
+        <option value="Thông báo">Thông báo</option>
+        <option value="Hoạt động của Khoa">Hoạt động của Khoa</option>
+        <option value="Học tập">Học tập</option>
+        <option value="Nghiên cứu khoa học">Nghiên cứu khoa học</option>
+    </select>
+    <br><br>
     <button type="submit">Thêm bài viết</button>
 </form>
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-?>
+<?php if (!empty($posts)) { ?>
     <h2>Danh sách bài viết</h2>
     <table border="1" cellpadding="10">
         <tr>
@@ -60,26 +57,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </tr>
         <?php foreach ($posts as $index => $post) { ?>
             <tr>
-                <td>
-                    <?php echo $index + 1; ?>
-                </td>
-                <td>
-                    <?php echo $post["title"]; ?>
-                </td>
-                <td>
-                    <?php echo $post["author"]; ?>
-                </td>
-                <td>
-                    <?php echo $post["category"]; ?>
-                </td>
-                <td>
-                    <?php echo getStatus($post["category"]); ?>
-                </td>
+                <td><?php echo $index + 1; ?></td>
+                <td><?php echo $post["title"]; ?></td>
+                <td><?php echo $post["author"]; ?></td>
+                <td><?php echo $post["category"]; ?></td>
+                <td><?php echo getStatus($post["category"]); ?></td>
             </tr>
+
         <?php } ?>
     </table>
-<?php
-}
-?>
+<?php } ?>
 </body>
 </html>
