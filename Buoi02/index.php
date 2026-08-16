@@ -1,118 +1,186 @@
-<?php
-$posts = [
-    [
-        "title" => "Học PHP cơ bản",
-        "author" => "Nguyễn An",
-        "category" => "Lập trình"
-    ],
-    [
-        "title" => "HTML và CSS",
-        "author" => "Trần Bình",
-        "category" => "Web"
-    ],
-    [
-        "title" => "Tìm hiểu JavaScript",
-        "author" => "Lê Anh",
-        "category" => "Lập trình"
-    ]
-];
+<?php 
+$posts = [ 
+    [ 
+        "title" => "Học PHP cơ bản", 
+        "author" => "Nguyễn An", 
+        "category" => "Lập trình" 
+    ], 
+    [ 
+        "title" => "HTML và CSS", 
+        "author" => "Trần Bình", 
+        "category" => "Web" 
+    ], 
+    [ 
+        "title" => "Tìm hiểu JavaScript", 
+        "author" => "Lê Anh", 
+        "category" => "Lập trình" 
+    ] 
+]; 
+
 function searchPost($posts, $keyword)
-{
-    $result = [];
-    foreach ($posts as $post) {
-        if (stripos($post["title"], $keyword) !== false) {
-            $result[] = $post;
-        }
-    }
-    return $result;
-}
-$keyword = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $keyword = $_POST["keyword"];
-}
-$result = searchPost($posts, $keyword);
-?>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Tìm kiếm bài viết</title>
-    <style>
-        body {
-            font-family: Arial;
-            background: #f4f4f4;
-            padding: 30px;
-        }
-        .container {
+{ 
+    $result = []; 
+
+    foreach ($posts as $post) { 
+        if (stripos($post["title"], $keyword) !== false) { 
+            $result[] = $post; 
+        } 
+    } 
+
+    return $result; 
+} 
+
+$keyword = ""; 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+    $keyword = $_POST["keyword"]; 
+} 
+
+$result = searchPost($posts, $keyword); 
+?> 
+
+<!DOCTYPE html> 
+<html lang="vi"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tìm kiếm bài viết</title> 
+
+    <style> 
+        body { 
+            font-family: Arial; 
+            background: #f4f4f4; 
+            padding: 30px; 
+            margin: 0;
+        } 
+
+        /* MENU */
+        nav {
             width: 800px;
-            margin: auto;
-            background: white;
-            padding: 25px;
+            margin: 0 auto 20px auto;
+            background: #7A2E25;
+            padding: 15px 25px;
             border-radius: 10px;
+            box-sizing: border-box;
         }
-        h1 {
-            text-align: center;
-        }
-        input {
-            width: 70%;
-            padding: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            background: #7A2E25;
+
+        nav a {
             color: white;
-            border: none;
+            text-decoration: none;
+            margin-right: 20px;
+            font-weight: bold;
         }
-        table {
-            width: 100%;
-            margin-top: 20px;
-            border-collapse: collapse;
+
+        nav a:hover {
+            text-decoration: underline;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
+
+        .container { 
+            width: 800px; 
+            margin: auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-sizing: border-box;
+        } 
+
+        h1 { 
+            text-align: center; 
+        } 
+
+        input { 
+            width: 70%; 
+            padding: 10px; 
+            box-sizing: border-box;
+        } 
+
+        button { 
+            padding: 10px 20px; 
+            background: #7A2E25; 
+            color: white; 
+            border: none; 
+            cursor: pointer;
+        } 
+
+        button:hover {
+            background: #5f241d;
         }
-        th {
-            background: #7A2E25;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h1>TÌM KIẾM BÀI VIẾT</h1>
-    <form method="POST">
-        <input
-            type="text"
-            name="keyword"
-            placeholder="Nhập tên bài viết..."
-            value="<?php echo $keyword; ?>"
-        >
-        <button type="submit">Tìm kiếm</button>
-    </form>
-    <table>
-        <tr>
-            <th>STT</th>
-            <th>Tiêu đề</th>
-            <th>Tác giả</th>
-            <th>Chuyên mục</th>
-        </tr>
-        <?php if (count($result) > 0): ?>
-            <?php foreach ($result as $index => $post): ?>
-                <tr>
-                    <td><?php echo $index + 1; ?></td>
-                    <td><?php echo $post["title"]; ?></td>
-                    <td><?php echo $post["author"]; ?></td>
-                    <td><?php echo $post["category"]; ?></td>
-                </tr>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <tr>
-                <td colspan="4">Không tìm thấy bài viết</td>
-            </tr>
-        <?php endif; ?>
-    </table>
-</div>
-</body>
+
+        table { 
+            width: 100%; 
+            margin-top: 20px; 
+            border-collapse: collapse; 
+        } 
+
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            text-align: center; 
+        } 
+
+        th { 
+            background: #7A2E25; 
+            color: white; 
+        } 
+    </style> 
+</head> 
+
+<body> 
+
+<!-- MENU -->
+<nav>
+    <a href="index.php">Trang chủ</a>
+    <a href="about.php">Giới thiệu nhóm</a>
+    <a href="admin/binhluan.php">Quản lý bình luận</a>
+    <a href="admin/quan-ly-bai-viet.php">Quản lý bài viết</a>
+</nav>
+
+<!-- NỘI DUNG TÌM KIẾM -->
+<div class="container"> 
+
+    <h1>TÌM KIẾM BÀI VIẾT</h1> 
+
+    <form method="POST"> 
+        <input 
+            type="text" 
+            name="keyword" 
+            placeholder="Nhập tên bài viết..." 
+            value="<?php echo htmlspecialchars($keyword); ?>" 
+        > 
+
+        <button type="submit">Tìm kiếm</button> 
+    </form> 
+
+    <table> 
+        <tr> 
+            <th>STT</th> 
+            <th>Tiêu đề</th> 
+            <th>Tác giả</th> 
+            <th>Chuyên mục</th> 
+        </tr> 
+
+        <?php if (count($result) > 0): ?> 
+
+            <?php foreach ($result as $index => $post): ?> 
+                <tr> 
+                    <td><?php echo $index + 1; ?></td> 
+                    <td><?php echo htmlspecialchars($post["title"]); ?></td> 
+                    <td><?php echo htmlspecialchars($post["author"]); ?></td> 
+                    <td><?php echo htmlspecialchars($post["category"]); ?></td> 
+                </tr> 
+            <?php endforeach; ?> 
+
+        <?php else: ?> 
+
+            <tr> 
+                <td colspan="4">Không tìm thấy bài viết</td> 
+            </tr> 
+
+        <?php endif; ?> 
+
+    </table> 
+
+</div> 
+
+</body> 
 </html>
