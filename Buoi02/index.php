@@ -1,17 +1,22 @@
 <?php
-$users = [];
+session_start();
+if (!isset($_SESSION["users"])) {
+    $_SESSION["users"] = [];
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $email = $_POST["email"];
     $password = $_POST["password"];
     $role = $_POST["role"];
-    $users[] = [
+    $user = [
         "name" => $name,
         "email" => $email,
         "password" => $password,
         "role" => $role
     ];
+    $_SESSION["users"][] = $user;
 }
+$users = $_SESSION["users"];
 function getRoleName($role)
 {
     if ($role == "admin") {
@@ -96,24 +101,42 @@ function getStatus($email)
     <form method="POST">
         <div class="form-group">
             <label>Họ tên</label>
-            <input type="text" name="name" required>
+            <input 
+                type="text" 
+                name="name" 
+                required
+            >
         </div>
         <div class="form-group">
             <label>Email</label>
-            <input type="email" name="email" required>
+            <input 
+                type="email" 
+                name="email" 
+                required
+            >
         </div>
         <div class="form-group">
             <label>Mật khẩu</label>
-            <input type="password" name="password" required>
+            <input 
+                type="password" 
+                name="password" 
+                required
+            >
         </div>
         <div class="form-group">
             <label>Vai trò</label>
             <select name="role">
-                <option value="user">Người dùng</option>
-                <option value="admin">Quản trị viên</option>
+                <option value="user">
+                    Người dùng
+                </option>
+                <option value="admin">
+                    Quản trị viên
+                </option>
             </select>
         </div>
-        <button type="submit">Thêm người dùng</button>
+        <button type="submit">
+            Thêm người dùng
+        </button>
     </form>
     <h2>DANH SÁCH NGƯỜI DÙNG</h2>
     <table>
@@ -127,7 +150,9 @@ function getStatus($email)
         <?php if (count($users) > 0): ?>
             <?php foreach ($users as $index => $user): ?>
                 <tr>
-                    <td><?php echo $index + 1; ?></td>
+                    <td>
+                        <?php echo $index + 1; ?>
+                    </td>
                     <td>
                         <?php echo $user["name"]; ?>
                     </td>
@@ -142,12 +167,12 @@ function getStatus($email)
                     </td>
                 </tr>
             <?php endforeach; ?>
-
         <?php else: ?>
             <tr>
                 <td colspan="5">
                     Chưa có người dùng
                 </td>
+
             </tr>
         <?php endif; ?>
     </table>
